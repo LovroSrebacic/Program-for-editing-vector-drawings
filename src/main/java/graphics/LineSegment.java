@@ -1,7 +1,10 @@
 package main.java.graphics;
 
 import java.awt.Dimension;
+import java.util.List;
+import java.util.Stack;
 
+import main.java.render.Renderer;
 import main.java.util.GeometryUtil;
 
 public class LineSegment extends AbstractGraphicalObject{
@@ -40,6 +43,28 @@ public class LineSegment extends AbstractGraphicalObject{
 	@Override
 	public GraphicalObject duplicate() {
 		return new LineSegment(new Point(getHotPoint(0)), new Point(getHotPoint(1)));
+	}
+
+	@Override
+	public void render(Renderer r) {
+		r.drawLine(getHotPoint(0), getHotPoint(1));	
+	}
+
+	@Override
+	public String getShapeID() {
+		return "@LINE";
+	}
+
+	@Override
+	public void save(List<String> rows) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load(Stack<GraphicalObject> stack, String data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

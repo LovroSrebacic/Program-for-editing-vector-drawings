@@ -1,6 +1,10 @@
 package main.java.graphics;
 
+import java.util.List;
+import java.util.Stack;
+
 import main.java.listener.GraphicalObjectListener;
+import main.java.render.Renderer;
 
 public interface GraphicalObject {
 	// object manipulation
@@ -32,9 +36,19 @@ public interface GraphicalObject {
 
 	public void removeGraphicalObjectListener(GraphicalObjectListener listener);
 
+	// drawing the object
+	public void render(Renderer r);
+
 	// prototype support methods
 	public String getShapeName();
 
 	public GraphicalObject duplicate();
+
+	// support for save and load
+	public String getShapeID();
+
+	public void save(List<String> rows);
+
+	public void load(Stack<GraphicalObject> stack, String data);
 
 }

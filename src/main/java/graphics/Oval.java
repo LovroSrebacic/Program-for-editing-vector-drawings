@@ -1,8 +1,14 @@
 package main.java.graphics;
 
+import java.util.List;
+import java.util.Stack;
+
+import main.java.render.Renderer;
 import main.java.util.GeometryUtil;
 
 public class Oval extends AbstractGraphicalObject {
+	
+	private final static int NUMBER_OF_POINTS = 50;
 
 	public Oval() {
 		super(new Point[] { new Point(0, 10), new Point(10, 0) });
@@ -60,6 +66,28 @@ public class Oval extends AbstractGraphicalObject {
 	@Override
 	public GraphicalObject duplicate() {
 		return new Oval(new Point(getHotPoint(0)), new Point(getHotPoint(1)));
+	}
+	
+	@Override
+	public void render(Renderer r) {
+		r.fillPolygon(getPoints(NUMBER_OF_POINTS));
+	}
+	
+	@Override
+	public String getShapeID() {
+		return "@OVAL";
+	}
+
+	@Override
+	public void save(List<String> rows) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load(Stack<GraphicalObject> stack, String data) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
