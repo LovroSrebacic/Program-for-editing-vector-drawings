@@ -26,6 +26,7 @@ import main.java.graphics.Oval;
 import main.java.graphics.Point;
 import main.java.listener.DocumentModelListener;
 import main.java.state.AddShapeState;
+import main.java.state.EraserState;
 import main.java.state.IdleState;
 import main.java.state.SelectShapeState;
 import main.java.state.State;
@@ -85,6 +86,9 @@ public class GUI extends JFrame {
 		
 		selectAction.putValue(Action.NAME, "Select");
 		toolbar.add(selectAction);
+		
+		eraserAction.putValue(Action.NAME, "Eraser");
+		toolbar.add(eraserAction);
 
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.NORTH);
@@ -145,6 +149,18 @@ public class GUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			currentState.onLeaving();
 			currentState = new SelectShapeState(model);
+			canvas.setCurrentState(currentState);
+		}
+	};
+	
+	private Action eraserAction = new AbstractAction() {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			currentState.onLeaving();
+			currentState = new EraserState(model);
 			canvas.setCurrentState(currentState);
 		}
 	};

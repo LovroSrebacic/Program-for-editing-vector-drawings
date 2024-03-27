@@ -152,6 +152,16 @@ public class DocumentModel {
 		return null;
 	}
 	
+	public List<GraphicalObject> findSelectedGraphicalObjects(Point mousePoint) {
+		List<GraphicalObject> gObjects = new ArrayList<GraphicalObject>();
+		for (GraphicalObject go : objects) {
+			if(go.selectionDistance(mousePoint) <= SELECTION_PROXIMITY/2) {
+				gObjects.add(go);
+			}
+		}
+		return gObjects;
+	}
+	
 	public int findSelectedHotPoint(GraphicalObject go, Point mousePoint) {
 		for (int i = 0; i < go.getNumberOfHotPoints(); i++) {
 			if(go.getHotPointDistance(i, mousePoint) <= SELECTION_PROXIMITY) {
