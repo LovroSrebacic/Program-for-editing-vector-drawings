@@ -80,14 +80,17 @@ public class Oval extends AbstractGraphicalObject {
 
 	@Override
 	public void save(List<String> rows) {
-		// TODO Auto-generated method stub
-		
+		Point lowerHotPoint = getHotPoint(0);
+		Point rightHotPoint = getHotPoint(1);
+		rows.add(String.format("%s %d %d %d %d", getShapeID(), rightHotPoint.getX(), rightHotPoint.getY(), lowerHotPoint.getX(), lowerHotPoint.getY()));
 	}
 
 	@Override
 	public void load(Stack<GraphicalObject> stack, String data) {
-		// TODO Auto-generated method stub
-		
+		String[] coordinates = data.trim().split(" ");
+		setHotPoint(1, new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])));//lower point
+		setHotPoint(0, new Point(Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3])));//right point
+		stack.push(this);
 	}
 	
 	/**

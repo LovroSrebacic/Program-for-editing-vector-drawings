@@ -166,12 +166,15 @@ public class CompositeShape implements GraphicalObject{
 
 	@Override
 	public void save(List<String> rows) {
-		
+		for (GraphicalObject go : objects) {
+			go.save(rows);
+		}
+		rows.add(String.format("%s %d", getShapeID(), objects.length));
 	}
 
 	@Override
 	public void load(Stack<GraphicalObject> stack, String data) {
-		
+		stack.push(this);
 	}
 
 }

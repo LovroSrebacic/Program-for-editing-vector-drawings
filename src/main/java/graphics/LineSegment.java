@@ -57,14 +57,17 @@ public class LineSegment extends AbstractGraphicalObject{
 
 	@Override
 	public void save(List<String> rows) {
-		// TODO Auto-generated method stub
-		
+		Point start = getHotPoint(0);
+		Point end = getHotPoint(1);
+		rows.add(String.format("%s %d %d %d %d", getShapeID(), start.getX(), start.getY(), end.getX(), end.getY()));
 	}
 
 	@Override
 	public void load(Stack<GraphicalObject> stack, String data) {
-		// TODO Auto-generated method stub
-		
+		String[] coordinates = data.trim().split(" ");
+		setHotPoint(0, new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])));//start point
+		setHotPoint(1, new Point(Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3])));//end point
+		stack.push(this);
 	}
 
 }
