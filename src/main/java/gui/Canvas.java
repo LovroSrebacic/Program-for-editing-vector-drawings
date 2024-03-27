@@ -8,15 +8,18 @@ import javax.swing.JComponent;
 
 import main.java.graphics.GraphicalObject;
 import main.java.render.G2DRenderer;
+import main.java.state.State;
 
 public class Canvas extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 	
 	private DocumentModel model;
+	private State currentState;
 	
-	public Canvas(DocumentModel model) {
+	public Canvas(DocumentModel model, State state) {
 		this.model = model;
+		this.currentState = state;
 		setFocusable(true);
 		requestFocusInWindow();
 	}
@@ -28,7 +31,9 @@ public class Canvas extends JComponent{
 		List<GraphicalObject> objects = model.list();
 		for (GraphicalObject go : objects) {
 			go.render(renderer);
+			currentState.afterDraw(renderer, go);
 		}
+		currentState.afterDraw(renderer);
 		requestFocusInWindow();
 	}
 
