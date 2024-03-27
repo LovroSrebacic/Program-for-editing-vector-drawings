@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,9 @@ import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -25,6 +28,7 @@ import main.java.graphics.LineSegment;
 import main.java.graphics.Oval;
 import main.java.graphics.Point;
 import main.java.listener.DocumentModelListener;
+import main.java.render.SVGRenderer;
 import main.java.state.AddShapeState;
 import main.java.state.EraserState;
 import main.java.state.IdleState;
@@ -77,6 +81,9 @@ public class GUI extends JFrame {
 
 	private void addToolbar(List<GraphicalObject> objects) {
 		JToolBar toolbar = new JToolBar();
+		
+		svgExportAction.putValue(Action.NAME, "SVG export");
+		toolbar.add(svgExportAction);
 
 		for (GraphicalObject go : objects) {
 			AbstractAction action = new CanvasAction(go);
@@ -162,6 +169,38 @@ public class GUI extends JFrame {
 			currentState.onLeaving();
 			currentState = new EraserState(model);
 			canvas.setCurrentState(currentState);
+		}
+	};
+	
+	private Action svgExportAction = new AbstractAction() {
+		
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser();
+			fc.setDialogTitle("SVG export");
+			if(fc.showSaveDialog(GUI.this) != JFileChooser.APPROVE_OPTION) {
+				return;
+			}
+			String path = fc.getSelectedFile().getPath();
+			if(!path.endsWith(".svg")) {
+				path += ".svg";
+			}
+			
+			SVGRenderer svgRenderer = new SVGRenderer(path);
+			List<GraphicalObject> objects = model.list();
+			for (GraphicalObject go : objects) {
+				go.render(svgRenderer);
+			}
+			
+			try {
+				svgRenderer.close();
+				JOptionPane.showMessageDialog(GUI.this, "SVG file successfully generated.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(GUI.this, "While exporting to file " + path + ": " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}
 	};
 
