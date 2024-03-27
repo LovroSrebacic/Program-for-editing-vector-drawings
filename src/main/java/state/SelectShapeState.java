@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.graphics.CompositeShape;
 import main.java.graphics.GraphicalObject;
 import main.java.graphics.Point;
 import main.java.graphics.Rectangle;
@@ -87,6 +88,32 @@ public class SelectShapeState extends IdleState {
 			List<GraphicalObject> selectedObjectsMinus = model.getSelectedObjects();
 			if(!selectedObjectsMinus.isEmpty() && selectedObjectsMinus.size() == 1) {
 				model.decreaseZ(selectedObjectsMinus.get(0));
+			}
+			break;
+		case KeyEvent.VK_G:
+			List<GraphicalObject> selectedObjects = model.getSelectedObjects();
+			if(!selectedObjects.isEmpty() && selectedObjects.size() > 1) {
+				GraphicalObject[] compositeObjects = new GraphicalObject[selectedObjects.size()];
+				for (int i = 0; i < compositeObjects.length; i++) {
+					compositeObjects[i] = selectedObjects.get(0);
+					model.removeGraphicalObject(selectedObjects.get(0));
+				}
+				GraphicalObject go = new CompositeShape(compositeObjects, false);
+				model.addGraphicalObject(go);
+				go.setSelected(true);
+			}
+			break;
+			
+		case KeyEvent.VK_U:
+			List<GraphicalObject> selectedObjectsUngroup = model.getSelectedObjects();
+			if(!selectedObjectsUngroup.isEmpty() && selectedObjectsUngroup.size() == 1 && selectedObjectsUngroup.get(0).getShapeName().equals("Composite")) {
+				CompositeShape composite = (CompositeShape)selectedObjectsUngroup.get(0);
+				GraphicalObject[] objects = composite.getObjects();
+				model.removeGraphicalObject(composite);
+				for (GraphicalObject go : objects) {
+					go.setSelected(true);
+					model.addGraphicalObject(go);
+				}
 			}
 			break;
 			
