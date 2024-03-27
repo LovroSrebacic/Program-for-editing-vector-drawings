@@ -27,6 +27,7 @@ public abstract class AbstractGraphicalObject implements GraphicalObject{
 	@Override
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+		notifySelectionListeners();
 	}
 
 	@Override
@@ -48,6 +49,7 @@ public abstract class AbstractGraphicalObject implements GraphicalObject{
 		if(index < hotPoints.length) {
 			hotPoints[index] = point;
 		}
+		notifyListeners();
 	}
 
 	@Override
@@ -93,6 +95,12 @@ public abstract class AbstractGraphicalObject implements GraphicalObject{
 	public void notifyListeners() {
 		for (GraphicalObjectListener listener : listeners) {
 			listener.graphicalObjectChanged(this);
+		}
+	}
+	
+	public void notifySelectionListeners() {
+		for (GraphicalObjectListener listener : listeners) {
+			listener.graphicalObjectSelectionChanged(this);
 		}
 	}
 

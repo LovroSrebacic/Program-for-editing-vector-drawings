@@ -108,6 +108,12 @@ public class DocumentModel {
 		return roSelectedObjects;
 	}
 	
+	public void deselectAll() {
+		while(selectedObjects.size() > 0) {
+			selectedObjects.get(0).setSelected(false);
+		}
+	}
+	
 	public void increaseZ(GraphicalObject go) {
 		int index = objects.indexOf(go);
 		if(index != -1 && index < objects.size() - 1) {

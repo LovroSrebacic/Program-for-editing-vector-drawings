@@ -36,5 +36,9 @@ public class Canvas extends JComponent{
 		currentState.afterDraw(renderer);
 		requestFocusInWindow();
 	}
+	
+	public void setCurrentState(State state) {
+		this.currentState = state;
+	}
 
 }
