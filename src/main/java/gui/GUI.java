@@ -98,9 +98,11 @@ public class GUI extends JFrame {
 		toolbar.add(svgExportAction);
 
 		for (GraphicalObject go : objects) {
-			AbstractAction action = new CanvasAction(go);
-			action.putValue(Action.NAME, go.getShapeName());
-			toolbar.add(action);
+			if (!(go instanceof CompositeShape)) {
+				AbstractAction action = new CanvasAction(go);
+				action.putValue(Action.NAME, go.getShapeName());
+				toolbar.add(action);
+			}
 		}
 
 		selectAction.putValue(Action.NAME, "Select");
@@ -294,7 +296,7 @@ public class GUI extends JFrame {
 									for (int i = 0; i < numOfObjects; i++) {
 										gObjects[i] = objects.pop();
 									}
-									
+
 									((CompositeShape) go).setObjects(gObjects);
 									go.duplicate().load(objects, line.substring(index + 1));
 								} else {
